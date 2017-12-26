@@ -14,13 +14,13 @@ select yn in "Bash" "+Anaconda" "+Misc" "+CyclusDeps" "+GitBranches"; do
 			break;;
         +Anaconda ) cat toBash.txt >> $HOME/.bashrc; 
 			source $HOME/.bashrc;
-			wget $conda_url -O $download_dir;
+			curl $conda_url -o $download_dir
 			bash Anaconda.sh; 
 			rm Anaconda.sh; 
 			break;;
 		+Misc ) cat toBash.txt >> $HOME/.bashrc; 
 			source $HOME/.bashrc;
-			wget $conda_url -O $download_dir;
+			curl $conda_url -o $download_dir
 			bash Anaconda.sh; 
 			rm Anaconda.sh; 
 			sudo add-apt-repository -y ppa:webupd8team/sublime-text-3;
@@ -29,7 +29,7 @@ select yn in "Bash" "+Anaconda" "+Misc" "+CyclusDeps" "+GitBranches"; do
 			break;;
 		+CyclusDeps ) cat toBash.txt >> $HOME/.bashrc; 
 			source $HOME/.bashrc;
-			wget $conda_url -O $download_dir;
+			curl $conda_url -o $download_dir
 			bash Anaconda.sh; 
 			rm Anaconda.sh; 
 			sudo add-apt-repository -y ppa:webupd8team/sublime-text-3;
@@ -40,7 +40,7 @@ select yn in "Bash" "+Anaconda" "+Misc" "+CyclusDeps" "+GitBranches"; do
 			break;;
 		+GitBranches ) cat toBash.txt >> $HOME/.bashrc; 
 			source $HOME/.bashrc;
-			wget $conda_url -O $download_dir;
+			curl $conda_url -o $download_dir
 			bash Anaconda.sh; 
 			rm Anaconda.sh; 
 			sudo add-apt-repository -y ppa:webupd8team/sublime-text-3;
