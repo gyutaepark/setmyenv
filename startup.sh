@@ -56,6 +56,7 @@ done
 if [[ $bashrc == "Yes" ]]; then
 	cat toBash.txt >> $HOME/.bashrc;
 	source $HOME/.bashrc;
+	export PATH="$HOME/anaconda3/bin:$PATH"
 fi
 
 if [[ $conda == "Yes" ]]; then
@@ -63,8 +64,9 @@ if [[ $conda == "Yes" ]]; then
 	bash Anaconda.sh -b -p $HOME/anaconda3
 	rm Anaconda.sh
 	source $HOME/.bashrc
-	conda config --add -y channels conda-forge
-	conda update -all -y
+	export PATH="$HOME/anaconda3/bin:$PATH"
+	conda config --add channels conda-forge
+	conda update --all -y
 	echo "Install Cyclus Dependencies?"
 	select condacyclus in "Yes" "No"; do
 		case $condacyclus in
