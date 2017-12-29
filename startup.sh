@@ -13,6 +13,14 @@ select bashrc in "Yes" "No"; do
 esac
 done
 
+echo "Install Cyclus Dependencies? (apt)"
+select cyclus in "Yes" "No"; do
+        case $cyclus in
+                Yes ) break;;
+                No )  break;;
+esac
+done
+
 echo "Install Conda 3? (5.0.1)?"
 select conda in "Yes" "No"; do
 	case $conda in
@@ -21,17 +29,33 @@ select conda in "Yes" "No"; do
 esac
 done
 
+echo "Install Cyclus Dependencies? (conda)"
+select condacyclus in "Yes" "No"; do
+        case $condacyclus in
+                Yes ) break;;
+                No ) break;;
+        esac
+done
+
+echo "Install Pyne?"
+select condapyne in "Yes" "No"; do
+        case $condapyne in
+                Yes ) break;;
+                No ) break;;
+        esac
+done
+
+echo "Install Jupyter Extensions?"
+select nbextension in "Yes" "No"; do
+        case $nbextension in
+                Yes ) break;;
+                No ) break;;
+        esac
+done
+
 echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
-		Yes ) break;;
-		No )  break;;
-esac
-done
-
-echo "Install Cyclus Dependencies?"
-select cyclus in "Yes" "No"; do
-	case $cyclus in
 		Yes ) break;;
 		No )  break;;
 esac
@@ -59,6 +83,13 @@ if [[ $bashrc == "Yes" ]]; then
 	export PATH="$HOME/anaconda3/bin:$PATH"
 fi
 
+if [[ $cyclus == "Yes" ]]; then
+        sudo apt-get update;
+        sudo apt-get dist-upgrade -y
+	sudo apt-get install gcc -y
+        eval cyclus_deps;
+fi
+
 if [[ $conda == "Yes" ]]; then
 	curl $conda_url -o Anaconda.sh
 	bash Anaconda.sh -b -p $HOME/anaconda3
@@ -67,30 +98,18 @@ if [[ $conda == "Yes" ]]; then
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
 	conda update --all -y
-	echo "Install Cyclus Dependencies?"
-	select condacyclus in "Yes" "No"; do
-		case $condacyclus in
-			Yes ) conda install cyclus-build-deps -y
-				break;;
-			No ) break;;
-		esac
-	done
-	echo "Install Pyne?"
-	select condapyne in "Yes" "No"; do
-		case $condapyne in
-			Yes ) conda install pyne -y
-				break;;
-			No ) break;;
-		esac
-	done
-	echo "Install Jupyter Extensions?"
-	select nbextension in "Yes" "No"; do
-		case $nbextension in
-			Yes ) conda instal -y jupyter_contrib_nbextensions 
-				break;;
-			No ) break;;
-		esac
-	done
+fi
+
+if [[ $condacyclus == "Yes" ]]; then
+	conda install cyclus-build-deps -y
+fi
+
+if [[ $condapyne == "Yes" ]]; then
+	conda install pyne -y
+fi
+
+if [[ $nbextension == "Yes" ]]; then
+	conda install jupyter_contrib_nbextensions -y
 fi
 
 if [[ $github == "Yes" ]]; then
@@ -119,12 +138,6 @@ if [[ $sublime == "Yes" ]]; then
 	sudo apt-get update;
 	sudo apt-get dist-upgrade -y
 	sudo apt-get install -y sublime-text-installer
-fi
-
-if [[ $cyclus == "Yes" ]]; then
-	sudo apt-get update;
-	sudo apt-get dist-upgrade -y
-	eval cyclus_deps;
 fi
 
 if [[ $other == "Yes" ]]; then
