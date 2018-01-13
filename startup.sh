@@ -9,15 +9,15 @@ echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
 select bashrc in "Yes" "No"; do
 	case $bashrc in
 		Yes ) break;;
-		No )  break;;
+No )  break;;
 esac
 done
 
 echo "Install Cyclus Dependencies? (apt)"
 select cyclus in "Yes" "No"; do
-        case $cyclus in
-                Yes ) break;;
-                No )  break;;
+	case $cyclus in
+		Yes ) break;;
+No )  break;;
 esac
 done
 
@@ -25,39 +25,39 @@ echo "Install Conda 3? (5.0.1)?"
 select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
-		No )  break;;
+No )  break;;
 esac
 done
 
 echo "Install Cyclus Dependencies? (conda)"
 select condacyclus in "Yes" "No"; do
-        case $condacyclus in
-                Yes ) break;;
-                No ) break;;
-        esac
+	case $condacyclus in
+		Yes ) break;;
+No ) break;;
+esac
 done
 
 echo "Install Pyne?"
 select condapyne in "Yes" "No"; do
-        case $condapyne in
-                Yes ) break;;
-                No ) break;;
-        esac
+	case $condapyne in
+		Yes ) break;;
+No ) break;;
+esac
 done
 
 echo "Install Jupyter Extensions?"
 select nbextension in "Yes" "No"; do
-        case $nbextension in
-                Yes ) break;;
-                No ) break;;
-        esac
+	case $nbextension in
+		Yes ) break;;
+No ) break;;
+esac
 done
 
 echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
 		Yes ) break;;
-		No )  break;;
+No )  break;;
 esac
 done
 
@@ -65,7 +65,7 @@ echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
 		Yes ) break;;
-		No )  break;;
+No )  break;;
 esac
 done
 
@@ -73,7 +73,7 @@ echo "Install Other Software?"
 select other in "Yes" "No"; do
 	case $other in
 		Yes ) break;;
-		No )  break;;
+No )  break;;
 esac
 done
 
@@ -84,14 +84,14 @@ if [[ $bashrc == "Yes" ]]; then
 fi
 
 if [[ $cyclus == "Yes" ]]; then
-        sudo apt-get update;
-        sudo apt-get dist-upgrade -y
+	sudo apt-get update;
+	sudo apt-get dist-upgrade -y
 	sudo apt-get install gcc -y
 	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-python3-jinja2 cython3
+	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+	python3-jinja2 cython3
 fi
 
 if [[ $conda == "Yes" ]]; then
