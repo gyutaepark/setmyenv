@@ -113,7 +113,7 @@ if [[ $condapyne == "Yes" ]]; then
 fi
 
 if [[ $nbextension == "Yes" ]]; then
-	conda install jupyter_contrib_nbextensions -y
+	conda install jupyter_contrib_nbextensions autopep8 yapf -y
 fi
 
 if [[ $github == "Yes" ]]; then
