@@ -86,7 +86,6 @@ fi
 if [[ $cyclus == "Yes" ]]; then
 	sudo apt-get update;
 	sudo apt-get dist-upgrade -y
-	sudo apt-get install gcc -y
 	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
 	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
 	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
