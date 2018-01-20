@@ -1,9 +1,4 @@
 conda_url='https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh'
-cyclus_deps='sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-python3-jinja2 cython3'
 
 echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
 select bashrc in "Yes" "No"; do
@@ -125,15 +120,6 @@ if [[ $github == "Yes" ]]; then
 	echo "Enter Git User Name";
 	read name;
 	git config --global user.name $name;
-	echo "How many branches do you need to clone?"
-	read count;
-	if [[ $count -gt 0 ]]; then
-		for i in $count; do
-			echo "Link?";
-			read branch;
-			git clone $branch;
-		done
-	fi
 fi
 
 if [[ $sublime == "Yes" ]]; then
