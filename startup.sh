@@ -51,7 +51,16 @@ done
 echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
-		Yes ) break;;
+		Yes ) echo "Enter Git User Email";
+			read email;
+			ssh-keygen -t rsa -b 4096 -C $email;
+			echo "Copy and Paste this for your ssh"
+			echo "$(cat $HOME/.ssh/id_rsa.pub)"
+			git config --global user.email $email;
+			echo "Enter Git User Name";
+			read name;
+			git config --global user.name $name;
+			break;;
 No )  break;;
 esac
 done
