@@ -4,7 +4,7 @@ echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
 select bashrc in "Yes" "No"; do
 	case $bashrc in
 		Yes ) break;;
-No )  break;;
+		No )  break;;
 esac
 done
 
@@ -20,7 +20,7 @@ echo "Install Conda 3? (5.0.1)?"
 select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
-No )  break;;
+		No )  break;;
 esac
 done
 
@@ -28,7 +28,7 @@ echo "Install Cyclus Dependencies? (conda)"
 select condacyclus in "Yes" "No"; do
 	case $condacyclus in
 		Yes ) break;;
-No ) break;;
+		No ) break;;
 esac
 done
 
@@ -36,7 +36,7 @@ echo "Install Pyne?"
 select condapyne in "Yes" "No"; do
 	case $condapyne in
 		Yes ) break;;
-No ) break;;
+		No ) break;;
 esac
 done
 
@@ -44,14 +44,16 @@ echo "Install Jupyter Extensions?"
 select nbextension in "Yes" "No"; do
 	case $nbextension in
 		Yes ) break;;
-No ) break;;
+		No ) break;;
 esac
 done
 
 echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
-		Yes ) echo "Enter Git User Email";
+		Yes ) 
+			sudo apt-get install -y git
+			echo "Enter Git User Email";
 			read email;
 			ssh-keygen -t rsa -b 4096 -C $email;
 			echo "Copy and Paste this for your ssh"
@@ -61,7 +63,7 @@ select github in "Yes" "No"; do
 			read name;
 			git config --global user.name $name;
 			break;;
-No )  break;;
+			No )  break;;
 esac
 done
 
@@ -69,7 +71,7 @@ echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
 		Yes ) break;;
-No )  break;;
+		No )  break;;
 esac
 done
 
@@ -77,7 +79,7 @@ echo "Install Other Software?"
 select other in "Yes" "No"; do
 	case $other in
 		Yes ) break;;
-No )  break;;
+		No )  break;;
 esac
 done
 
@@ -98,6 +100,7 @@ if [[ $cyclus == "Yes" ]]; then
 fi
 
 if [[ $conda == "Yes" ]]; then
+	sudo apt-get install -y curl
 	curl $conda_url -o Anaconda.sh
 	bash Anaconda.sh -b -p $HOME/anaconda3
 	rm Anaconda.sh
@@ -108,7 +111,7 @@ if [[ $conda == "Yes" ]]; then
 fi
 
 if [[ $condacyclus == "Yes" ]]; then
-	conda install cyclus-build-deps -y
+	conda install -c conda-forge cyclus-build-deps -y
 fi
 
 if [[ $condapyne == "Yes" ]]; then
