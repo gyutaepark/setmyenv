@@ -119,18 +119,6 @@ if [[ $nbextension == "Yes" ]]; then
 	conda install jupyter_contrib_nbextensions autopep8 yapf -y
 fi
 
-if [[ $github == "Yes" ]]; then
-	echo "Enter Git User Email";
-	read email;
-	ssh-keygen -t rsa -b 4096 -C $email;
-	echo "Copy and Paste this for your ssh"
-	echo "$(cat $HOME/.ssh/id_rsa.pub)"
-	git config --global user.email $email;
-	echo "Enter Git User Name";
-	read name;
-	git config --global user.name $name;
-fi
-
 if [[ $sublime == "Yes" ]]; then
 	sudo add-apt-repository -y ppa:webupd8team/sublime-text-3;
 	sudo apt-get update;
