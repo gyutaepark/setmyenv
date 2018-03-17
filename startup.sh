@@ -51,7 +51,7 @@ done
 echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
-		Yes ) 
+		Yes )
 			sudo apt-get install -y git
 			echo "Enter Git User Email";
 			read email;
@@ -78,7 +78,9 @@ done
 echo "Install Other Software?"
 select other in "Yes" "No"; do
 	case $other in
-		Yes ) break;;
+		Yes )
+			echo "List all apt to get (separated by space only)"
+			read aptget;
 		No )  break;;
 esac
 done
@@ -131,7 +133,5 @@ fi
 
 if [[ $other == "Yes" ]]; then
 	sudo apt-get update;
-	echo "List all apt to get"
-	read aptget;
 	sudo apt-get install -y $aptget
 fi
