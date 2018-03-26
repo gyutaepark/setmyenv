@@ -63,7 +63,7 @@ select github in "Yes" "No"; do
 			read name;
 			git config --global user.name $name;
 			break;;
-			No )  break;;
+		No )  break;;
 esac
 done
 
@@ -81,6 +81,7 @@ select other in "Yes" "No"; do
 		Yes )
 			echo "List all apt to get (separated by space only)"
 			read aptget;
+			break;;
 		No )  break;;
 esac
 done
