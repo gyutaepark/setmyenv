@@ -4,10 +4,10 @@ parse_git_branch() {
 
 # added by Anaconda3 installer
 export DISPLAY=:0
-export PATH="$HOME/anaconda3/bin:$PATH"
+export PATH="$HOME/anaconda3/bin:$HOME/.local/bin:$PATH"
 export PS1="\u \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 alias openrc='subl ~/.bashrc'
 alias src='source ~/.bashrc'
 alias cls='clear && ls'
-alias updateall='sudo apt-get update && sudo apt-get dist-upgrade -y'
+alias updateall='sudo apt-get update && sudo apt -y dist-upgrade && conda update --all'
