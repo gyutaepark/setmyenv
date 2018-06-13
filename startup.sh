@@ -135,3 +135,5 @@ fi
 if [[ $other == "Yes" ]]; then
 	sudo apt-get install -y $aptget
 fi
+
+echo "Done!\nDon't forget to run `source $HOME/.bashrc`!"
