@@ -1,4 +1,4 @@
-conda_url='https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh'
+conda_url='https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'
 
 echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
 select bashrc in "Yes" "No"; do
@@ -52,11 +52,11 @@ echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
 		Yes )
-			sudo apt-get install -y git
+			sudo apt install -y git
 			echo "Enter Git User Email";
 			read email;
 			ssh-keygen -t rsa -b 4096 -C $email;
-			echo "Copy and Paste this for your ssh"
+			echo "Copy and Paste this to: https://github.com/settings/ssh/new"
 			echo "$(cat $HOME/.ssh/id_rsa.pub)"
 			git config --global user.email $email;
 			echo "Enter Git User Name";
@@ -79,22 +79,23 @@ echo "Install Other Software?"
 select other in "Yes" "No"; do
 	case $other in
 		Yes )
-			echo "List all apt to get (separated by space only)"
+			echo "List all apt to get (separated by single space only)"
 			read aptget;
 			break;;
 		No )  break;;
 esac
 done
 
+sudo apt update;
+sudo apt dist-upgrade -y;
+
 if [[ $bashrc == "Yes" ]]; then
 	cat toBash.txt >> $HOME/.bashrc;
-	source $HOME/.bashrc;
 	export PATH="$HOME/anaconda3/bin:$PATH"
+	echo "Don't forget to run `source $HOME/.bashrc`!"
 fi
 
 if [[ $cyclus == "Yes" ]]; then
-	sudo apt-get update;
-	sudo apt-get dist-upgrade -y
 	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
 	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
 	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
@@ -107,10 +108,8 @@ if [[ $conda == "Yes" ]]; then
 	curl $conda_url -o Anaconda.sh
 	bash Anaconda.sh -b -p $HOME/anaconda3
 	rm Anaconda.sh
-	source $HOME/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
-	conda update --all -y
 fi
 
 if [[ $condacyclus == "Yes" ]]; then
@@ -122,17 +121,17 @@ if [[ $condapyne == "Yes" ]]; then
 fi
 
 if [[ $nbextension == "Yes" ]]; then
-	conda install jupyter_contrib_nbextensions autopep8 yapf -y
+	conda install jupyter_contrib_nbextensions autopep8 -y
 fi
 
 if [[ $sublime == "Yes" ]]; then
-	sudo add-apt-repository -y ppa:webupd8team/sublime-text-3;
-	sudo apt-get update;
-	sudo apt-get dist-upgrade -y
-	sudo apt-get install -y sublime-text-installer
+	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+	sudo apt install -y apt-transport-https
+	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+	sudo apt update
+	sudo apt install -y sublime-text
 fi
 
 if [[ $other == "Yes" ]]; then
-	sudo apt-get update;
 	sudo apt-get install -y $aptget
 fi
