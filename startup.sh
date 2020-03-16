@@ -8,27 +8,11 @@ select bashrc in "Yes" "No"; do
 esac
 done
 
-echo "Install Cyclus Dependencies? (apt)"
-select cyclus in "Yes" "No"; do
-	case $cyclus in
-		Yes ) break;;
-No )  break;;
-esac
-done
-
 echo "Install Conda 3? (5.0.1)?"
 select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
 		No )  break;;
-esac
-done
-
-echo "Install Cyclus Dependencies? (conda)"
-select condacyclus in "Yes" "No"; do
-	case $condacyclus in
-		Yes ) break;;
-		No ) break;;
 esac
 done
 
@@ -48,21 +32,18 @@ select nbextension in "Yes" "No"; do
 esac
 done
 
-echo "Setup Git?"
-select github in "Yes" "No"; do
-	case $github in
-		Yes )
-			sudo apt install -y git
-			echo "Enter Git User Email";
-			read email;
-			ssh-keygen -t rsa -b 4096 -C $email;
-			echo "Copy and Paste this to: https://github.com/settings/ssh/new"
-			echo "$(cat $HOME/.ssh/id_rsa.pub)"
-			git config --global user.email $email;
-			echo "Enter Git User Name";
-			read name;
-			git config --global user.name $name;
-			break;;
+echo "Install Cyclus Dependencies? (conda)"
+select condacyclus in "Yes" "No"; do
+	case $condacyclus in
+		Yes ) break;;
+		No ) break;;
+esac
+done
+
+echo "Install Cyclus Dependencies? (apt)"
+select cyclus in "Yes" "No"; do
+	case $cyclus in
+		Yes ) break;;
 		No )  break;;
 esac
 done
@@ -86,6 +67,28 @@ select other in "Yes" "No"; do
 esac
 done
 
+echo "Setup Git?"
+select github in "Yes" "No"; do
+	case $github in
+		Yes )
+			sudo apt install -y git
+			echo "Enter Git User Email";
+			read email;
+			git config --global user.email $email;
+			echo "Enter Git User Name";
+			read name;
+			git config --global user.name $name;
+			echo "Enter Default editor";
+			read editor;
+			git config --global core.editor $editor;
+			ssh-keygen -t rsa -b 4096 -C $email;
+			echo "Copy and Paste this to: https://github.com/settings/ssh/new"
+			echo "$(cat $HOME/.ssh/id_rsa.pub)"
+			break;;
+		No )  break;;
+esac
+done
+
 sudo apt update;
 sudo apt dist-upgrade -y;
 
@@ -93,14 +96,6 @@ if [[ $bashrc == "Yes" ]]; then
 	cat toBash.txt >> $HOME/.bashrc;
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	echo "Don't forget to run `source $HOME/.bashrc`!"
-fi
-
-if [[ $cyclus == "Yes" ]]; then
-	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-	python3-jinja2 cython3
 fi
 
 if [[ $conda == "Yes" ]]; then
@@ -112,16 +107,24 @@ if [[ $conda == "Yes" ]]; then
 	conda config --add channels conda-forge
 fi
 
-if [[ $condacyclus == "Yes" ]]; then
-	conda install -c conda-forge cyclus-build-deps -y
-fi
-
 if [[ $condapyne == "Yes" ]]; then
 	conda install pyne -y
 fi
 
 if [[ $nbextension == "Yes" ]]; then
 	conda install jupyter_contrib_nbextensions autopep8 -y
+fi
+
+if [[ $condacyclus == "Yes" ]]; then
+	conda install -c conda-forge cyclus-build-deps -y
+fi
+
+if [[ $cyclus == "Yes" ]]; then
+	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+	python3-jinja2 cython3
 fi
 
 if [[ $sublime == "Yes" ]]; then
