@@ -30,6 +30,22 @@ select cyclus in "Yes" "No"; do
 	esac
 done
 
+echo "Install Pyne Dependencies? (conda)"
+select condapyne in "Yes" "No"; do
+	case $condapyne in
+		Yes ) break;;
+		No ) break;;
+	esac
+done
+
+echo "Install Pyne Dependencies? (apt)"
+select pyne in "Yes" "No"; do
+	case $pyne in
+		Yes ) break;;
+		No )  break;;
+	esac
+done
+
 echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
@@ -124,6 +140,11 @@ if [[ $cyclus == "Yes" ]]; then
 	python3-jinja2 cython3
 fi
 
+if [[ $pyne == "Yes" ]]; then
+	sudo apt install -y cmake cython3 gfortran libhdf5-serial-dev libblas-dev \
+	liblapack-dev python3-numpy python3-scipy python3-tables python3-jinja2	
+fi
+
 if [[ $sublime == "Yes" ]]; then
 	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 	sudo apt install -y apt-transport-https
@@ -155,5 +176,8 @@ if [[ $condacyclus == "Yes" ]]; then
 	conda install -c conda-forge cyclus-build-deps -y
 fi
 
+if [[ $condapyne == "Yes" ]]; then
+	conda install -c conda-forge conda-build jinja2 nose setuptools pytables hdf5 scipy -y
+fi
 
 echo -e $"Done.\nDon't forget to run 'source $HOME/.bashrc'"
