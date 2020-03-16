@@ -118,7 +118,7 @@ select alias in "Yes" "No"; do
 		Yes )
 			cat alias.txt >> $HOME/.bashrc
 			break;;
-		No )  break::
+		No )  break;;
 	esac
 done
 
@@ -145,14 +145,14 @@ if [[ $other == "Yes" ]]; then
 fi
 
 if [[ $conda == "Yes" ]]; then
-	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
-	| sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
-	| xargs wget -O Anaconda3.sh
-	bash Anaconda3.sh -b -p $HOME/anaconda3
-	rm Anaconda3.sh
-	echo 'export PATH="HOME/anaconda3/bin:$PATH"' >> $HOME/.bashrc
-	export PATH="$HOME/anaconda3/bin:$PATH"
-	conda config --add channels conda-forge
+	# wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
+	# | sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
+	# | xargs wget -O Anaconda3.sh
+	# bash Anaconda3.sh -b -p $HOME/anaconda3
+	# rm Anaconda3.sh
+	echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> $HOME/.bashrc
+	# export PATH="$HOME/anaconda3/bin:$PATH"
+	# conda config --add channels conda-forge
 fi
 
 if [[ $condapyne == "Yes" ]]; then
