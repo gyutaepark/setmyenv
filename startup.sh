@@ -109,6 +109,7 @@ select alias in "Yes" "No"; do
 			break;;
 		No )  break::
 	esac
+done
 
 sudo apt update;
 
