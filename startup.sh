@@ -101,6 +101,15 @@ select wsl in "Yes" "No"; do
 	esac
 done
 
+echo "Add alias to .bashrc?"
+select alias in "Yes" "No"; do
+	case $alias in
+		Yes )
+			cat alias.txt >> $HOME/.bashrc
+			break;;
+		No )  break::
+	esac
+
 sudo apt update;
 
 if [[ $cyclus == "Yes" ]]; then
