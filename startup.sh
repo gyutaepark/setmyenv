@@ -1,5 +1,3 @@
-conda_url='https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'
-
 echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
 select bashrc in "Yes" "No"; do
 	case $bashrc in
@@ -8,7 +6,7 @@ select bashrc in "Yes" "No"; do
 esac
 done
 
-echo "Install Conda 3? (5.0.1)?"
+echo "Install Conda 3? (latest)?"
 select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
@@ -99,20 +97,21 @@ if [[ $bashrc == "Yes" ]]; then
 fi
 
 if [[ $conda == "Yes" ]]; then
-	sudo apt-get install -y curl
-	curl $conda_url -o Anaconda.sh
-	bash Anaconda.sh -b -p $HOME/anaconda3
-	rm Anaconda.sh
+	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
+	| sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
+	| xargs wget -O Anaconda3.sh
+	bash Anaconda3.sh -b -p $HOME/anaconda3
+	rm Anaconda3.sh
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
 fi
 
 if [[ $condapyne == "Yes" ]]; then
-	conda install pyne -y
+	conda install -c conda-forge pyne -y
 fi
 
 if [[ $nbextension == "Yes" ]]; then
-	conda install jupyter_contrib_nbextensions autopep8 -y
+	conda install -c conda-forge jupyter_contrib_nbextensions autopep8 -y
 fi
 
 if [[ $condacyclus == "Yes" ]]; then
@@ -120,7 +119,7 @@ if [[ $condacyclus == "Yes" ]]; then
 fi
 
 if [[ $cyclus == "Yes" ]]; then
-	sudo apt-get install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+	sudo apt install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
 	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
 	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
 	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
@@ -136,7 +135,7 @@ if [[ $sublime == "Yes" ]]; then
 fi
 
 if [[ $other == "Yes" ]]; then
-	sudo apt-get install -y $aptget
+	sudo apt install -y $aptget
 fi
 
 echo -e $"Done.\nDon't forget to run 'source $HOME/.bashrc'"
