@@ -3,7 +3,7 @@ select bashrc in "Yes" "No"; do
 	case $bashrc in
 		Yes ) break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Install Conda 3? (latest)?"
@@ -11,7 +11,7 @@ select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Install Pyne?"
@@ -27,7 +27,7 @@ select nbextension in "Yes" "No"; do
 	case $nbextension in
 		Yes ) break;;
 		No ) break;;
-esac
+	esac
 done
 
 echo "Install Cyclus Dependencies? (conda)"
@@ -35,7 +35,7 @@ select condacyclus in "Yes" "No"; do
 	case $condacyclus in
 		Yes ) break;;
 		No ) break;;
-esac
+	esac
 done
 
 echo "Install Cyclus Dependencies? (apt)"
@@ -43,7 +43,7 @@ select cyclus in "Yes" "No"; do
 	case $cyclus in
 		Yes ) break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Install Sublime Text?"
@@ -51,7 +51,7 @@ select sublime in "Yes" "No"; do
 	case $sublime in
 		Yes ) break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Install Other Software?"
@@ -62,7 +62,7 @@ select other in "Yes" "No"; do
 			read aptget;
 			break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Setup Git?"
@@ -84,7 +84,7 @@ select github in "Yes" "No"; do
 			echo "$(cat $HOME/.ssh/id_rsa.pub)"
 			break;;
 		No )  break;;
-esac
+	esac
 done
 
 echo "Display git branch name in shell?"
