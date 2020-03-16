@@ -43,13 +43,15 @@ select sublime in "Yes" "No"; do
 	case $sublime in
 		Yes ) 
 			echo "Copy my sublime text settings?"
-			select sublsettings in "Yes" "No" do
+			select sublsettings in "Yes" "No"; do
 				case $sublsettings in
 					Yes )
 						mkdir -p $HOME/.config/sublime-text-3/Packages/User
 						cp -r sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
 						break;;
 					No )  break;;
+				esac
+			done
 			break;;
 		No )  break;;
 	esac
