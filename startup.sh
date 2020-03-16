@@ -41,7 +41,16 @@ done
 echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
-		Yes ) break;;
+		Yes ) 
+			echo "Copy my sublime text settings?"
+			select sublsettings in "Yes" "No" do
+				case $sublsettings in
+					Yes )
+						mkdir -p $HOME/.config/sublime-text-3/Packages/User
+						cp -r sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
+						break;;
+					No )  break;;
+			break;;
 		No )  break;;
 	esac
 done
