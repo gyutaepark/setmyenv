@@ -1,11 +1,3 @@
-echo "Update Bashrc? (Append conda path, parse git branch, alias, etc.)"
-select bashrc in "Yes" "No"; do
-	case $bashrc in
-		Yes ) break;;
-		No )  break;;
-	esac
-done
-
 echo "Install Conda 3? (latest)?"
 select conda in "Yes" "No"; do
 	case $conda in
@@ -110,13 +102,6 @@ select wsl in "Yes" "No"; do
 done
 
 sudo apt update;
-sudo apt dist-upgrade -y;
-
-if [[ $bashrc == "Yes" ]]; then
-	cat toBash.txt >> $HOME/.bashrc;
-	export PATH="$HOME/anaconda3/bin:$PATH"
-	echo "Don't forget to run `source $HOME/.bashrc`!"
-fi
 
 if [[ $conda == "Yes" ]]; then
 	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
@@ -124,6 +109,7 @@ if [[ $conda == "Yes" ]]; then
 	| xargs wget -O Anaconda3.sh
 	bash Anaconda3.sh -b -p $HOME/anaconda3
 	rm Anaconda3.sh
+	echo 'export PATH="HOME/anaconda3/bin:$PATH"' >> $HOME/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
 fi
