@@ -103,6 +103,26 @@ done
 
 sudo apt update;
 
+if [[ $cyclus == "Yes" ]]; then
+	sudo apt install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+	python3-jinja2 cython3
+fi
+
+if [[ $sublime == "Yes" ]]; then
+	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+	sudo apt install -y apt-transport-https
+	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+	sudo apt update
+	sudo apt install -y sublime-text
+fi
+
+if [[ $other == "Yes" ]]; then
+	sudo apt install -y $aptget
+fi
+
 if [[ $conda == "Yes" ]]; then
 	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
 	| sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
@@ -126,24 +146,5 @@ if [[ $condacyclus == "Yes" ]]; then
 	conda install -c conda-forge cyclus-build-deps -y
 fi
 
-if [[ $cyclus == "Yes" ]]; then
-	sudo apt install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-	python3-jinja2 cython3
-fi
-
-if [[ $sublime == "Yes" ]]; then
-	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-	sudo apt install -y apt-transport-https
-	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-	sudo apt update
-	sudo apt install -y sublime-text
-fi
-
-if [[ $other == "Yes" ]]; then
-	sudo apt install -y $aptget
-fi
 
 echo -e $"Done.\nDon't forget to run 'source $HOME/.bashrc'"
