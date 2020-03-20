@@ -164,7 +164,7 @@ if [[ $conda == "Yes" ]]; then
 	| xargs wget -O Anaconda3.sh
 	bash Anaconda3.sh -b -p $HOME/anaconda3
 	rm Anaconda3.sh
-	echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> $HOME/.bashrc
+	cat path.txt >> $HOME/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
 fi
