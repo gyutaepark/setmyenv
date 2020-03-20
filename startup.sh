@@ -1,16 +1,11 @@
+aptlist=" "
+condalist=" "
+
 echo "Install Conda 3? (latest)?"
 select conda in "Yes" "No"; do
 	case $conda in
 		Yes ) break;;
 		No )  break;;
-	esac
-done
-
-echo "Install Jupyter Extensions?"
-select nbextension in "Yes" "No"; do
-	case $nbextension in
-		Yes ) break;;
-		No ) break;;
 	esac
 done
 
@@ -43,6 +38,14 @@ select pyne in "Yes" "No"; do
 	case $pyne in
 		Yes ) break;;
 		No )  break;;
+	esac
+done
+
+echo "Install Jupyter Extensions?"
+select nbextension in "Yes" "No"; do
+	case $nbextension in
+		Yes ) break;;
+		No ) break;;
 	esac
 done
 
@@ -113,7 +116,7 @@ echo "Running wsl with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
-			echo "export DISPLAY=: 0" >> $HOME/.bashrc
+			echo "export DISPLAY=:0" >> $HOME/.bashrc
 			echo -e '\n\neval `dbus-launch --auto-syntax`\ngnome-terminal' | sudo tee -a /etc/profile 1> /dev/null
 			break;;
 		No )  break;;
@@ -130,54 +133,54 @@ select alias in "Yes" "No"; do
 	esac
 done
 
-sudo apt update;
-
 if [[ $cyclus == "Yes" ]]; then
-	sudo apt install -y cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-	libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-	coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-	libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-	python3-jinja2 cython3
+	aptlist+="cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+		libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+		coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+		libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+		python3-jinja2 cython3 "
 fi
 
 if [[ $pyne == "Yes" ]]; then
-	sudo apt install -y cmake cython3 gfortran libhdf5-serial-dev libblas-dev \
-	liblapack-dev python3-numpy python3-scipy python3-tables python3-jinja2	
+	aptlist+="build-essential gfortran libblas-dev liblapack-dev libhdf5-dev autoconf libtool "
 fi
 
 if [[ $sublime == "Yes" ]]; then
 	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-	sudo apt install -y apt-transport-https
 	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-	sudo apt update
-	sudo apt install -y sublime-text
+	aptlist+="sublime-text "
 fi
 
 if [[ $other == "Yes" ]]; then
-	sudo apt install -y $aptget
+	aptlsit+="$aptget "
 fi
+
+sudo apt update;
+sudo apt install -y $aptlist;
 
 if [[ $conda == "Yes" ]]; then
-	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
-	| sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
-	| xargs wget -O Anaconda3.sh
-	bash Anaconda3.sh -b -p $HOME/anaconda3
-	rm Anaconda3.sh
+	# wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
+	# | sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p' \
+	# | xargs wget -O Anaconda3.sh
+	# bash Anaconda3.sh -b -p $HOME/anaconda3
+	# rm Anaconda3.sh
 	echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> $HOME/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
-	conda config --add channels conda-forge
-fi
-
-if [[ $nbextension == "Yes" ]]; then
-	conda install -c conda-forge jupyter_contrib_nbextensions autopep8 -y
+	# conda config --add channels conda-forge
 fi
 
 if [[ $condacyclus == "Yes" ]]; then
-	conda install -c conda-forge cyclus-build-deps -y
+	condalist+="cyclus-build-deps "
 fi
 
 if [[ $condapyne == "Yes" ]]; then
-	conda install -c conda-forge conda-build jinja2 nose setuptools pytables hdf5 scipy -y
+	condalist+="conda-build jinja2 nose setuptools pytables hdf5 scipy "
 fi
+
+if [[ $nbextension == "Yes" ]]; then
+	condalist+="jupyter_contrib_nbextensions autopep8 "
+fi
+
+conda install -c conda-forge -y $condalist;
 
 echo -e $"Done.\nDon't forget to run 'source $HOME/.bashrc'"
