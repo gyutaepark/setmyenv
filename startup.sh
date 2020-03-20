@@ -115,8 +115,9 @@ echo "Running wsl with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
+			aptlist+="tilix "
 			echo "export DISPLAY=:0" >> $HOME/.bashrc
-			echo -e '\n\neval `dbus-launch --auto-syntax`\ngnome-terminal' | sudo tee -a /etc/profile 1> /dev/null
+			echo -e '\n\neval `dbus-launch --auto-syntax`\ntilix' | sudo tee -a /etc/profile 1> /dev/null
 			break;;
 		No )  break;;
 	esac
