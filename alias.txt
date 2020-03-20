@@ -1,3 +1,4 @@
+
 alias openrc='subl ~/.bashrc'
 alias src='source ~/.bashrc'
 alias cls='clear && ls'

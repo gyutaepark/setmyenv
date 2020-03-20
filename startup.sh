@@ -83,7 +83,6 @@ echo "Setup Git?"
 select github in "Yes" "No"; do
 	case $github in
 		Yes )
-			sudo apt install -y git
 			echo "Enter Git User Email";
 			read email;
 			git config --global user.email $email;
@@ -156,7 +155,7 @@ if [[ $other == "Yes" ]]; then
 fi
 
 sudo apt update;
-sudo apt install -y $aptlist;
+sudo apt-get install -y $aptlist;
 
 if [[ $conda == "Yes" ]]; then
 	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
