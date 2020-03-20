@@ -12,15 +12,23 @@ done
 echo "Install Cyclus Dependencies? (conda)"
 select condacyclus in "Yes" "No"; do
 	case $condacyclus in
-		Yes ) break;;
-		No ) break;;
+		Yes ) 
+			condalist+="cyclus-build-deps "
+			break;;
+		No )  break;;
 	esac
 done
 
 echo "Install Cyclus Dependencies? (apt)"
 select cyclus in "Yes" "No"; do
 	case $cyclus in
-		Yes ) break;;
+		Yes ) 
+			aptlist+="cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+				libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+				coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+				libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+				python3-jinja2 cython3 "
+			break;;
 		No )  break;;
 	esac
 done
@@ -28,15 +36,19 @@ done
 echo "Install Pyne Dependencies? (conda)"
 select condapyne in "Yes" "No"; do
 	case $condapyne in
-		Yes ) break;;
-		No ) break;;
+		Yes ) 
+			condalist+="conda-build jinja2 nose setuptools pytables hdf5 scipy "
+			break;;
+		No )  break;;
 	esac
 done
 
 echo "Install Pyne Dependencies? (apt)"
 select pyne in "Yes" "No"; do
 	case $pyne in
-		Yes ) break;;
+		Yes ) 
+			aptlist+="build-essential gfortran libblas-dev liblapack-dev libhdf5-dev autoconf libtool "
+			break;;
 		No )  break;;
 	esac
 done
@@ -44,8 +56,10 @@ done
 echo "Install Jupyter Extensions?"
 select nbextension in "Yes" "No"; do
 	case $nbextension in
-		Yes ) break;;
-		No ) break;;
+		Yes ) 
+			condalist+="jupyter_contrib_nbextensions autopep8 "
+			break;;
+		No )  break;;
 	esac
 done
 
@@ -53,16 +67,7 @@ echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
 		Yes ) 
-			echo "Copy my sublime text settings?"
-			select sublsettings in "Yes" "No"; do
-				case $sublsettings in
-					Yes )
-						mkdir -p $HOME/.config/sublime-text-3/Packages/User
-						cp -r sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
-						break;;
-					No )  break;;
-				esac
-			done
+			aptlist+="sublime-text "
 			break;;
 		No )  break;;
 	esac
@@ -74,6 +79,7 @@ select other in "Yes" "No"; do
 		Yes )
 			echo "List all apt to get (separated by single space only)"
 			read aptget;
+			aptlist+="$aptget "
 			break;;
 		No )  break;;
 	esac
@@ -101,11 +107,11 @@ select github in "Yes" "No"; do
 done
 
 echo "Display git branch name in shell?"
+echo "(obtained from: https://coderwall.com/p/fasnya/add-git-branch-name-to-bash-prompt)"
 select parsegit in "Yes" "No"; do
 	case $parsegit in
 		Yes )
-			echo "Obtained from: https://coderwall.com/p/fasnya/add-git-branch-name-to-bash-prompt"
-			cat parse_git_branch.txt >> $HOME/.bashrc;
+			cat settings/parse_git_branch.txt >> $HOME/.bashrc;
 			break;;
 		No )  break;;
 	esac
@@ -115,48 +121,38 @@ echo "Running wsl with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
-			aptlist+="tilix "
 			echo "export DISPLAY=:0" >> $HOME/.bashrc
-			echo -e '\n\neval `dbus-launch --auto-syntax`\ntilix' | sudo tee -a /etc/profile 1> /dev/null
+			echo -e '\n\neval `dbus-launch --auto-syntax`\n' | sudo tee -a /etc/profile 1> /dev/null
 			break;;
 		No )  break;;
 	esac
 done
 
-echo "Add alias to .bashrc?"
+echo "Restore personal settings?"
 select alias in "Yes" "No"; do
 	case $alias in
 		Yes )
+			aptlist+="tilix dconf-cli "
+			echo -e 'tilix\n' | sudo tee -a /etc/profile 1> /dev/null
+			mkdir -p $HOME/.config/sublime-text-3/Packages/User
+			cp -r sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
 			cat alias.txt >> $HOME/.bashrc
 			break;;
 		No )  break;;
 	esac
 done
 
-if [[ $cyclus == "Yes" ]]; then
-	aptlist+="cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-		libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-		coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-		libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-		python3-jinja2 cython3 "
-fi
-
-if [[ $pyne == "Yes" ]]; then
-	aptlist+="build-essential gfortran libblas-dev liblapack-dev libhdf5-dev autoconf libtool "
-fi
-
 if [[ $sublime == "Yes" ]]; then
 	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-	aptlist+="sublime-text "
-fi
-
-if [[ $other == "Yes" ]]; then
-	aptlsit+="$aptget "
 fi
 
 sudo apt update;
 sudo apt-get install -y $aptlist;
+
+if [[ $alias == "Yes" ]]; then
+	dconf load /com/gexperts/Tilix/ < settings/tilix.dconf
+fi
 
 if [[ $conda == "Yes" ]]; then
 	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
@@ -167,18 +163,6 @@ if [[ $conda == "Yes" ]]; then
 	cat path.txt >> $HOME/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
 	conda config --add channels conda-forge
-fi
-
-if [[ $condacyclus == "Yes" ]]; then
-	condalist+="cyclus-build-deps "
-fi
-
-if [[ $condapyne == "Yes" ]]; then
-	condalist+="conda-build jinja2 nose setuptools pytables hdf5 scipy "
-fi
-
-if [[ $nbextension == "Yes" ]]; then
-	condalist+="jupyter_contrib_nbextensions autopep8 "
 fi
 
 conda install -c conda-forge -y $condalist;
