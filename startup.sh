@@ -13,25 +13,28 @@ echo "Install Cyclus Dependencies? (conda)"
 select condacyclus in "Yes" "No"; do
 	case $condacyclus in
 		Yes ) 
-			condalist+="cyclus-build-deps "
+			condalist+="openssh gxx_linux-64 gcc_linux-64 cmake make docker-pycreds git xo python-json-logger \
+						python=3.6 glibmm glib=2.56 libxml2 libxmlpp libblas libcblas liblapack pkg-config \
+						coincbc=2.9 boost-cpp hdf5 sqlite pcre gettext bzip2 xz setuptools nose pytables pandas \
+						jinja2 cython==0.26 websockets pprintpp"
 			break;;
 		No )  break;;
 	esac
 done
 
-echo "Install Cyclus Dependencies? (apt)"
-select cyclus in "Yes" "No"; do
-	case $cyclus in
-		Yes ) 
-			aptlist+="cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
-				libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
-				coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
-				libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
-				python3-jinja2 cython3 "
-			break;;
-		No )  break;;
-	esac
-done
+# echo "Install Cyclus Dependencies? (apt)"
+# select cyclus in "Yes" "No"; do
+# 	case $cyclus in
+# 		Yes ) 
+# 			aptlist+="cmake make libboost-all-dev libxml2-dev libxml++2.6-dev \
+# 				libsqlite3-dev libhdf5-serial-dev libbz2-dev coinor-libcbc-dev coinor-libcoinutils-dev \
+# 				coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev libblas-dev liblapack-dev g++ \
+# 				libgoogle-perftools-dev python3-dev python3-tables python3-pandas python3-numpy python3-nose \
+# 				python3-jinja2 cython3 "
+# 			break;;
+# 		No )  break;;
+# 	esac
+# done
 
 echo "Install Pyne Dependencies? (conda)"
 select condapyne in "Yes" "No"; do
