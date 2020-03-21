@@ -1,0 +1,4 @@
+python=3.6
+glib=2.56 
+coincbc=2.9
+cython=0.26
