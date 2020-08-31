@@ -114,12 +114,11 @@ select parsegit in "Yes" "No"; do
 	esac
 done
 
-echo "Running wsl with xserver?"
+echo "Running wsl2 with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
-			echo "export DISPLAY=:0" >> $HOME/.bashrc
-			echo -e '\n\neval `dbus-launch --auto-syntax`\n' | sudo tee -a /etc/profile 1> /dev/null
+			echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0" >> $HOME/.bashrc
 			break;;
 		No )  break;;
 	esac
@@ -129,8 +128,7 @@ echo "Restore personal settings?"
 select alias in "Yes" "No"; do
 	case $alias in
 		Yes )
-			aptlist+="tilix dconf-cli "
-			echo -e 'tilix\n' | sudo tee -a /etc/profile 1> /dev/null
+			aptlist+="gnome-terminal tmux "
 			mkdir -p $HOME/.config/sublime-text-3/Packages/User
 			cp -r settings/sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
 			cat settings/alias.txt >> $HOME/.bashrc
