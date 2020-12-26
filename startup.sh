@@ -20,7 +20,7 @@ done
 echo "Install Cyclus Dependencies? (conda)"
 select condacyclus in "Yes" "No"; do
 	case $condacyclus in
-		Yes ) 
+		Yes )
 			condalist+="openssh gxx_linux-64 gcc_linux-64 cmake make docker-pycreds git xo python-json-logger \
 						python=3.6 glibmm glib=2.56 libxml2 libxmlpp libblas libcblas liblapack pkg-config \
 						coincbc=2.9 boost-cpp hdf5 sqlite pcre gettext bzip2 xz setuptools nose pytables pandas \
@@ -33,7 +33,7 @@ done
 echo "Install Pyne Dependencies? (conda)"
 select condapyne in "Yes" "No"; do
 	case $condapyne in
-		Yes ) 
+		Yes )
 			condalist+="conda-build jinja2 nose setuptools pytables hdf5 scipy "
 			break;;
 		No )  break;;
@@ -43,7 +43,7 @@ done
 echo "Install Pyne Dependencies? (apt)"
 select pyne in "Yes" "No"; do
 	case $pyne in
-		Yes ) 
+		Yes )
 			aptlist+="build-essential gfortran libblas-dev liblapack-dev libhdf5-dev autoconf libtool "
 			break;;
 		No )  break;;
@@ -53,7 +53,7 @@ done
 echo "Install Jupyter Extensions?"
 select nbextension in "Yes" "No"; do
 	case $nbextension in
-		Yes ) 
+		Yes )
 			condalist+="jupyter_contrib_nbextensions autopep8 "
 			break;;
 		No )  break;;
@@ -63,7 +63,7 @@ done
 echo "Install Sublime Text?"
 select sublime in "Yes" "No"; do
 	case $sublime in
-		Yes ) 
+		Yes )
 			aptlist+="sublime-text "
 			break;;
 		No )  break;;
@@ -128,9 +128,6 @@ echo "Restore personal settings?"
 select alias in "Yes" "No"; do
 	case $alias in
 		Yes )
-			aptlist+="gnome-terminal tmux "
-			mkdir -p $HOME/.config/sublime-text-3/Packages/User
-			cp -r settings/sublime_text_settings $HOME/.config/sublime-text-3/Packages/User
 			cat settings/alias.txt >> $HOME/.bashrc
 			break;;
 		No )  break;;
@@ -144,11 +141,7 @@ fi
 
 sudo apt update;
 sudo apt install -y $aptlist;
-sudo apt dist-upgrade -y; 
-
-if [[ $alias == "Yes" ]]; then
-	dconf load /com/gexperts/Tilix/ < settings/tilix.dconf
-fi
+sudo apt dist-upgrade -y;
 
 if [[ $anaconda == "Yes" ]]; then
 	wget -O - https://www.anaconda.com/distribution/ 2>/dev/null \
