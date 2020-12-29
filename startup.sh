@@ -118,7 +118,7 @@ echo "Running wsl2 with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
-			echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0" >> $HOME/.bashrc
+			cat settings/wsl.txt >> $HOME/.bashrc;
 			break;;
 		No )  break;;
 	esac
