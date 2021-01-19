@@ -70,7 +70,7 @@ select sublime in "Yes" "No"; do
 	esac
 done
 
-echo "Install Other Software?"
+echo "Install Other Software (apt)?"
 select other in "Yes" "No"; do
 	case $other in
 		Yes )
@@ -124,7 +124,7 @@ select wsl in "Yes" "No"; do
 	esac
 done
 
-echo "Restore personal settings?"
+echo "Restore personal settings? (This adds aliases. Please check $HOME/.bashrc for new aliases)"
 select alias in "Yes" "No"; do
 	case $alias in
 		Yes )
