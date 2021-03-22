@@ -70,7 +70,7 @@ select sublime in "Yes" "No"; do
 	esac
 done
 
-echo "Install Other Software?"
+echo "Install Other Software (apt)?"
 select other in "Yes" "No"; do
 	case $other in
 		Yes )
@@ -118,13 +118,13 @@ echo "Running wsl2 with xserver?"
 select wsl in "Yes" "No"; do
 	case $wsl in
 		Yes )
-			echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0" >> $HOME/.bashrc
+			cat settings/wsl.txt >> $HOME/.bashrc;
 			break;;
 		No )  break;;
 	esac
 done
 
-echo "Restore personal settings?"
+echo "Restore personal settings? (This adds aliases. Please check $HOME/.bashrc for new aliases)"
 select alias in "Yes" "No"; do
 	case $alias in
 		Yes )

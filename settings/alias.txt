@@ -1,4 +1,5 @@
 
+alias ls='LC_COLLATE=C ls -h --group-directories-first --color=auto'
 alias openrc='subl ~/.bashrc'
 alias src='source ~/.bashrc'
 alias cls='clear && ls'
